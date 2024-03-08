@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Open Auction Details</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		  th:href="@{/css/OpenAuctionDetailsStyle.css}" />
+</head>
+
+<body>
+<header>
+	<h1>Auction Details</h1>
+	<p th:text="${username + ', here are the details of auction number ' + auction.getAuctionId()}"></p>
+	<form th:action="@{/GoToHomePage}" method="POST">
+		<button id="homePageButton" type="submit">Home Page</button>
+	</form>
+</header>
+
+<main>
+	<section>
+		<!-- Table with auction details -->
+		Details:
+		<table>
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>CURRENT OFFER</th>
+				<th>EXPIRATION</th>
+				<th>INITIAL PRICE</th>
+				<th>FINAL PRICE</th>
+				<th>ARTICLES</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td th:text="${auction.getAuctionId()}"></td>
+				<td th:text="${auction.getMaxBid()}"></td>
+				<td th:text="${auction.getEndDate()}"></td>
+				<td th:text="${auction.getInitialPrice()}"></td>
+				<td th:text="${auction.getFinalPrice()}"></td>
+				<td>
+					<table>
+						<thead>
+						<tr>
+							<th>Code</th>
+							<th>Name</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr th:each="article : ${auctionArticles}">
+							<td th:text="${article.getCode()}"></td>
+							<td th:text="${article.getName()}"></td>
+						</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</section>
+
+	<section>
+		<!-- Offer details -->
+		Offers:
+		<table>
+			<thead>
+			<tr>
+				<th>Bidder</th>
+				<th>Offered Price</th>
+				<th>Date and Time</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="offer : ${auctionOffers}">
+				<td th:text="${offer.getBidder()}"></td>
+				<td th:text="${offer.getOfferPrice()}"></td>
+				<td th:text="${offer.getDateTime()}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</section>
+</main>
+
+<div th:if="${difference < 0}">
+	<!-- Button to close the auction -->
+	This auction has expired, click here to close it:
+	<form th:action="@{/CloseAuction}" method="POST">
+		<input type="hidden" name="auctionID" th:value="${auction.getAuctionId()}">
+		<button type="submit">Close Auction</button>
+	</form>
+</div>
+</body>
+
+</html>

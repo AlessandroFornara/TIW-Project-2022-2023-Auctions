@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>HomePage</title>
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/css/HomePageStyle.css}" />
+</head>
+
+<body>
+	<header>
+		<h1>Auctions</h1>
+	</header>
+	<main>
+		<form th:action="@{/GoToSell}" method="POST">
+			<input type="submit" value="Sell" />
+		</form>
+		<form th:action="@{/GoToBuy}" method="POST">
+			<input type="submit" value="Buy" />
+		</form>
+	</main>
+</body>
+</html>

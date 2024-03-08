@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Closed Auction Details</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		  th:href="@{/css/ClosedAuctionDetailsStyle.css}" />
+</head>
+
+<body>
+<header>
+	<h1>Auction Details</h1>
+	<p th:text="${username + ', auction number ' + auction.getAuctionId() + ' is closed, here are the details'}"></p>
+	<form th:action="@{/GoToHomePage}" method="POST">
+		<button id="homePageButton" type="submit">Home Page</button>
+	</form>
+</header>
+
+<main>
+	<section>
+		<h2>Winning Bidder Details</h2>
+		<ul>
+			<li><span>Winner: </span><span th:text="${auction.getWinner()}"></span></li>
+			<li><span>Final Price: </span><span th:text="${auction.getFinalPrice()}"></span></li>
+			<li><span>User Address: </span><span th:text="${user.getAddress()}"></span></li>
+		</ul>
+		<table>
+			<thead>
+			<tr>
+				<th>Initial Price</th>
+				<th>Final Price</th>
+				<th>Expiration Date</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td th:text="${auction.getInitialPrice()}"></td>
+				<td th:text="${auction.getFinalPrice()}"></td>
+				<td th:text="${auction.getEndDate()}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</section>
+
+	<section>
+		<h2>Articles</h2>
+		<table>
+			<thead>
+			<tr>
+				<th>Code</th>
+				<th>Name</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="article : ${auctionArticles}">
+				<td th:text="${article.getCode()}"></td>
+				<td th:text="${article.getName()}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</section>
+</main>
+</body>
+
+</html>

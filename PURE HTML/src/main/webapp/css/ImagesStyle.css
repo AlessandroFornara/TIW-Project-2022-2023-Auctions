@@ -1,0 +1,9 @@
+body {
+	background-color: ghostwhite;
+	font-family: Comic sans MS;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 90vw;
+	height: 90vh;
+}

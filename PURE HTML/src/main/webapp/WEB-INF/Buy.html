@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Purchase</title>
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/css/BuyStyle.css}" />
+</head>
+
+<body>
+	<header>
+		<h1>PURCHASE</h1>
+		<p th:text="${'Hello ' + username + ', here you can purchase items'}"></p>
+		<p th:if="${keyword == null || #strings.isEmpty(keyword)}">Use the
+			form below to search for what interests you</p>
+		<form id="formHomePage" th:action="@{/GoToHomePage}" method="POST">
+			<button id="homePageButton" type="submit">Home Page</button>
+		</form>
+	</header>
+
+	<main>
+		<div>
+			<form th:action=@{/GoToBuy} method="POST">
+				<h2>SEARCH</h2>
+				<input type="text" name="keyword" placeholder="Keyword" required>
+				<input id="button" type="submit" value="Search">
+			</form>
+
+			<section id="WonAuctions">
+				<p th:if="${!wonAuctions.isEmpty()}">Here are your won auctions</p>
+				<p th:if="${wonAuctions.isEmpty}">You haven't won any auction
+					yet</p>
+				<table th:if="${!wonAuctions.isEmpty()}"
+					th:each="auction : ${wonAuctions}">
+					<thead>
+						<tr>
+							<th>AUCTION ID</th>
+							<th>Final Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td th:text="${auction.getAuctionId()}"></td>
+							<td th:text="${auction.getFinalPrice()}"></td>
+						</tr>
+						<tr>
+							<table>
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Code</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="article : ${auction.getArticles()}">
+										<td th:text="${article.getName()}"></td>
+										<td th:text="${article.getCode()}"></td>
+										<td th:text="${article.getDescription()}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
+
+		<section th:if="${not #strings.isEmpty(keyword)}">
+			<p
+				th:text="${'Here is a list of auctions that contain ' + keyword + ' in the name or description of an article'}"></p>
+			<table th:each="auction : ${foundAuctions}">
+				<thead>
+					<tr>
+						<th>AUCTION ID</th>
+						<th>Auction Details</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:text="${auction.getAuctionId}"></td>
+						<td>
+							<table>
+								<thead>
+									<tr>
+										<th>Current Bid</th>
+										<th>Time Remaining</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td th:text="${auction.getMaxBid()}"></td>
+										<td th:text="${auction.getRemainingTime()}"></td>
+									</tr>
+									<tr>
+										<table>
+											<thead>
+												<tr>
+													<th>Article Code</th>
+													<th>Article Name</th>
+													<th>Image</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="article : ${auction.getArticles()}">
+													<td th:text="${article.getCode()}"></td>
+													<td th:text="${article.getName()}"></td>
+													<td><form id="imageForm" th:action="@{/OpenImage}" method="POST">
+															<input type="hidden" name="image"
+																th:value="${article.getImage()}">
+															<button type="submit">image</button>
+														</form></td>
+												</tr>
+											</tbody>
+										</table>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<form id="ViewOffersForm" th:action="@{/ViewOffers}"
+								method="POST">
+								<input type="hidden" name="auctionID"
+									th:value="${auction.getAuctionId}"> <input
+									type="hidden" name="done" value="true">
+								<button id="ViewOffersButton" type="submit">View Bids</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+</body>
+
+</html>

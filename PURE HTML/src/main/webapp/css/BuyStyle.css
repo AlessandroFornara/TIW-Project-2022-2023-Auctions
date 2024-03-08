@@ -1,0 +1,139 @@
+body {
+	background-color: ghostwhite;
+	font-family: Comic sans MS;
+}
+
+h1, p {
+	margin: auto;
+	margin-bottom: 1.5%;
+	font-weight: bold;
+}
+
+h2 {
+	text-align: center;
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: darkslategrey;
+	color: ghostwhite;
+}
+
+section {
+	margin-left: 10%;
+	overflow-y: auto;
+	height: 340px;
+}
+
+#WonAuctions{
+	margin-top: 10%;
+	margin-left: 0%
+}
+
+main {
+	display: flex;
+	justify-content: center;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+}
+
+th, td {
+	padding: 3px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+
+th {
+	background-color: #e7c7a6;
+	font-weight: bold;
+	text-align: center;
+}
+
+tbody tr:hover {
+	background-color: rgba(218, 218, 76, 0.21);
+}
+
+table table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table table th, table table td {
+	padding: 5px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+table table th {
+	background-color: #e7c7a6;
+	font-weight: bold;
+}
+
+form:not(#formHomePage, #ViewOffersForm, #imageForm){
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 356px;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+	margin-top: 3%;
+	margin-right: 10%;
+}
+
+input {
+	width: 50%;
+}
+
+#button, #ViewOffersButton{
+	margin: 5px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-weight: bold;
+	border: none;
+}
+
+#ViewOffersButton{
+	width: 98%;
+	padding: 2%;
+}
+
+#button:hover{
+	background-color: #e7c7a6;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
+
+#homePageButton {
+	margin: 5px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-weight: bold;
+	border: none;
+}
+
+#homePageButton:hover {
+	background-color: ghostwhite;;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
+
+div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#ViewOffersForm{
+	width: 100%;
+}
+
+#ViewOffersButton:hover {
+	background-color: darkslategrey;;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
