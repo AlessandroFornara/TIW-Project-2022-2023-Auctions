@@ -1,0 +1,47 @@
+header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: darkslategrey;
+	color: ghostwhite;
+}
+
+body {
+	background-color: ghostwhite;
+	font-family: Comic sans MS;
+}
+
+section {
+	margin-left: auto;
+	margin-right: auto;
+	overflow-y: auto;
+	height: 340px;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+}
+
+div {
+	display: flex;
+	justify-content: center;
+}
+
+td {
+	text-align: center;
+}
+
+#homePageButton {
+	margin: 5px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-weight: bold;
+	border: none;
+}
+
+#homePageButton:hover {
+	background-color: ghostwhite;;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}

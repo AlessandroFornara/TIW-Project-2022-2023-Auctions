@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/ViewOffersStyle.css}" />
+	<title>View Offers</title>
+</head>
+
+<body>
+<header>
+	<h1>BIDS</h1>
+	<p th:text="${'Here are the offers and data of the articles for auction ' + auction.getAuctionId() + ' by user ' + auction.getUsername()}"></p>
+	<p th:text="${'The minimum bid increment is ' + auction.getMinimumRaise()}"></p>
+	<form id="HomePageForm" th:action="@{/GoToHomePage}" method="POST">
+		<button id="homePageButton" type="submit">Home Page</button>
+	</form>
+</header>
+<main>
+	<section>
+		<table>
+			<thead>
+			<tr>
+				<th>Code</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="article : ${auction.getArticles()}">
+				<td th:text="${article.getCode()}"></td>
+				<td th:text="${article.getName()}"></td>
+				<td th:text="${article.getDescription()}"></td>
+				<td th:text="${article.getPrice()}"></td>
+			</tr>
+			<tr>
+				<!-- Second row for the image -->
+			</tr>
+			</tbody>
+		</table>
+		<div>
+			<form th:action="@{/AddOffer}" method="POST">
+				<input type="hidden" name="auctionID" th:value="${auction.getAuctionId()}">
+				<input type="hidden" name="bidderUsername" th:value="${username}">
+				<input type="text" name="offer" required placeholder="Offer: 00" pattern="[0-9]+?">
+				<input id="button" type="submit" value="Place Bid">
+			</form>
+			<p th:if="${!done}">The bid was not successful, please try again</p>
+		</div>
+	</section>
+	<section>
+		<table>
+			<thead>
+			<tr>
+				<th>Bidder</th>
+				<th>Date and Time</th>
+				<th>Bid Value</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="offer : ${auctionOffers}">
+				<td th:text="${offer.getBidder()}"></td>
+				<td th:text="${offer.getDateTime()}"></td>
+				<td th:text="${offer.getOfferPrice()}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</section>
+</main>
+</body>
+
+</html>

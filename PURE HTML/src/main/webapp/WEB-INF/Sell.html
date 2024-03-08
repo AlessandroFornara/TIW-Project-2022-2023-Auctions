@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Sell</title>
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/css/SellStyle.css}" />
+</head>
+<body>
+
+	<header>
+		<h1>SELL YOUR ARTICLES</h1>
+		<p th:text="${'Hi ' + username + ', this is your selling page'}">
+		</p>
+
+		<form th:action="@{/GoToHomePage}" method="POST">
+			<button id="homePageButton" type="submit">Home Page</button>
+		</form>
+	</header>
+
+	<main>
+
+		<section th:if="${openAuctions != null}">
+			<h2>YOUR OPEN AUCTIONS</h2>
+			<table th:each="auction : ${openAuctions}">
+				<thead>
+
+					<tr>
+
+						<th>AUCTION ID</th>
+						<th>Auction Details</th>
+
+					</tr>
+
+				</thead>
+
+				<tbody>
+
+					<!-- for each auction, actual table row -->
+					<tr>
+
+						<td th:text="${auction.getAuctionId()}"></td>
+
+						<td>
+							<!-- INNER TABLE: contains auction data -->
+							<table>
+								<thead>
+									<tr>
+										<th>Current Offer</th>
+										<th>Time Remaining</th>
+
+									</tr>
+								</thead>
+
+								<tbody>
+									<!-- FIRST ROW -->
+									<tr>
+										<td th:text="${auction.getMaxBid()}"></td>
+										<td th:text="${auction.getRemainingTime()}"></td>
+
+									</tr>
+
+									<!-- SECOND ROW -->
+									<tr>
+
+										<!-- ARTICLES TABLE -->
+										<table>
+											<thead>
+												<th>Article Code</th>
+												<th>Article Name</th>
+												<th>Image</th>
+											</thead>
+
+											<tbody>
+												<tr th:each="article : ${auction.getArticles()}">
+													<td th:text="${article.getCode()}"></td>
+													<td th:text="${article.getName()}"></td>
+													<td><form th:action="@{/OpenImage}" method="POST">
+															<input type="hidden" name="image"
+																th:value="${article.getImage()}"> <button
+																type="submit">image</button>
+														</form></td>
+												</tr>
+											</tbody>
+										</table>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+						<td>
+							<form id="auctionDetails" th:action="@{/OpenAuctionDetails}"
+								method="POST">
+								<input type="hidden" name="auctionID"
+									th:value="${auction.getAuctionId()}"> <input
+									id="detailsButton" type="submit" value="Details">
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section th:if="${openAuctions == null}">
+			<h2>YOUR OPEN AUCTIONS</h2>
+			<p>You have no ongoing auctions.</p>
+		</section>
+
+		<section th:if="${closedAuctions != null}">
+			<h2>YOUR CLOSED AUCTIONS</h2>
+			<table th:each="auction : ${closedAuctions}">
+				<thead>
+
+					<tr>
+
+						<th>AUCTION ID</th>
+						<th>Auction Details</th>
+
+					</tr>
+
+				</thead>
+
+				<tbody>
+
+					<!-- for each auction, actual table row -->
+					<tr>
+
+						<td th:text="${auction.getAuctionId()}"></td>
+
+						<td>
+							<!-- INNER TABLE: contains auction data -->
+							<table>
+								<thead>
+									<tr>
+										<th>Final Price</th>
+										<th>Expired on</th>
+
+									</tr>
+								</thead>
+
+								<tbody>
+									<!-- FIRST ROW -->
+									<tr>
+										<td th:text="${auction.getMaxBid()}"></td>
+										<td th:text="${auction.getEndDate()}"></td>
+
+									</tr>
+
+									<!-- SECOND ROW -->
+									<tr>
+
+										<!-- ARTICLES TABLE -->
+										<table>
+											<thead>
+												<th>Article Code</th>
+												<th>Article Name</th>
+												<th>Image</th>
+											</thead>
+
+											<tbody>
+												<tr th:each="article : ${auction.getArticles()}">
+													<td th:text="${article.getCode()}"></td>
+													<td th:text="${article.getName()}"></td>
+													<td><form th:action="@{/OpenImage}" method="POST">
+															<input type="hidden" name="image"
+																th:value="${article.getImage()}"> <button
+																type="submit">image</button>
+														</form></td>
+												</tr>
+											</tbody>
+										</table>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+						<td>
+							<form id="auctionDetails" th:action="@{/ClosedAuctionDetails}"
+								method="POST">
+								<input type="hidden" name="auctionID"
+									th:value="${auction.getAuctionId()}"> <input
+									id="detailsButton" type="submit" value="Details">
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section th:if="${closedAuctions == null}">
+			<h2>YOUR CLOSED AUCTIONS</h2>
+			<p>You have no closed auctions.</p>
+		</section>
+	</main>
+
+	<div>
+		<form id="addAuctionAndArticles" th:action="@{/AddAuction}"
+			method="POST">
+			<h2 id="createAuction">Create Auction</h2>
+			<input type="text" name="minimumBidIncrement" pattern="[0-9]+?"
+				placeholder="Minimum bid: 00" required> <input type="text"
+				name="expirationDate" placeholder="Expires on: YYYY-MM-DD hh"
+				maxlength="13" required
+				pattern="^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2]\d|3[01])\s([01]?[0-9]|2[0-3])$">
+			<label for="selectOption">Select one or more articles:</label> <select
+				name="articlesToAdd" multiple="multiple" required>
+				<option th:each="a : ${unsoldArticles}" th:value="${a.getCode()}"
+					th:text="${a.getName()}"></option>
+			</select> <input id="button" type="submit" value="Create">
+		</form>
+
+		<form id="addAuctionAndArticles" th:action="@{/AddArticle}"
+			method="POST">
+			<h2 id="addArticle">Add Article</h2>
+			<input type="text" name="articleName" placeholder="Article Name"
+				required> <input type="text" name="articleDescription"
+				placeholder="Description" maxlength="200" required> <input
+				type="text" name="articlePrice" pattern="[0-9]+?"
+				placeholder="Price: 00" required> <input id="button"
+				type="submit" value="Add">
+		</form>
+	</div>
+
+</body>
+</html>
