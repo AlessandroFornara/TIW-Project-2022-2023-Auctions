@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>JavascriptPage</title>
+<script type="module" src="AuctionsFactory.js" charset="utf-8" defer></script>
+<script src="utils.js" charset="utf-8" defer></script>
+<link rel="stylesheet" type="text/css" media="all"
+	href="css/AuctionMainPageStyle.css" />
+
+</head>
+
+<body>
+
+	<header>
+		<h1 id="pageTitle"></h1>
+		<p id="welcome-message"></p>
+		<p id="minimum-raise-message"></p>
+		<div id = "buttonsContainer">
+		<form id="goToSell" action=#>
+			<button id="SellButton" type="submit">Sell</button>
+		</form>
+		<form id="goToBuy" action=#>
+			<button id="BuyButton" type="submit">Buy</button>
+		</form>
+		</div>
+		<p id="erroralert"></p>
+		<p id="errormessage"></p>
+	</header>
+
+	<main>
+		<!-- BUY -->
+		<p id="search-message"></p>
+		<div id="formSearchByKeyword"></div>
+
+		<p id="foundAuctionsByKeywordMessage"></p>
+		<section id="foundAuctionsByKeywordSection"></section>
+
+		<p id="wonAuctionsMessage"></p>
+		<section id="wonAuctionsSection"></section>
+
+		<p id="lastClickedAuctionsMessage"></p>
+		<section id="lastClickedAuctionsSection"></section>
+
+		<section id="table1Section"></section>
+		<section id="table2Section"></section>
+		<section id="viewOffersSection"></section>
+		<p id="badOfferMessage"></p>
+
+
+		<!-- SELL -->
+		<h2 id="openAuctionsMessage"></h2>
+		<section id="openAuctionsSection"></section>
+
+		<h2 id="closedAuctionsMessage"></h2>
+		<section id="closedAuctionsSection"></section>
+
+		<div id="addAuctionAndArticlesDiv"></div>
+
+		<!-- openAuctionDetails -->
+		<section id="openAuctionDetails"></section>
+		<section id="openAuctionOffers"></section>
+		<div id="closeAuctionForm"></div>
+
+		<!-- closedAuctionDetails -->
+		<section id="closedAuctionDetails"></section>
+		<section id="closedAuctionArticles"></section>
+	</main>
+</body>
+</html>

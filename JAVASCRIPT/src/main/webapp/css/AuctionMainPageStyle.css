@@ -1,0 +1,101 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	line-height: 1.4;
+	background-color: #f1f1f1;
+	padding: 20px;
+}
+
+header {
+	background-color: #333;
+	color: #fff;
+	padding: 20px;
+}
+
+header h1 {
+	font-size: 24px;
+}
+
+button {
+	background-color: #4CAF50;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+section {
+	margin-bottom: 20px;
+}
+
+p {
+	margin-bottom: 10px;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table th, table td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+}
+
+table th {
+	background-color: #f2f2f2;
+}
+
+#pageTitle {
+	font-size: 28px;
+	margin-bottom: 10px;
+}
+
+#welcome-message {
+	font-style: italic;
+}
+
+#minimum-raise-message {
+	font-weight: bold;
+}
+
+#erroralert {
+	color: red;
+	font-weight: bold;
+}
+
+#search-message, #foundAuctionsByKeywordMessage, #wonAuctionsMessage,
+	#lastClickedAuctionsMessage, #openAuctionsMessage,
+	#closedAuctionsMessage, #badOfferMessage, #errormessage {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#buttonsContainer {
+	display: flex;
+	align-items: center;
+}
+
+#goToSell {
+	padding-right: 4%;
+}
+
+#addAuctionAndArticles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+    margin: 50px;
+}
+
+#addAuctionAndArticlesDiv {
+	display: flex;
+	justify-content: center;
+}
