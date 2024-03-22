@@ -1,0 +1,21 @@
+title event: load after login
+
+->AuctionsMainPage.html + \n AuctionsFactory: load
+
+alt username != null
+AuctionsMainPage.html + \n AuctionsFactory -> Page Orchestrator: start()
+Page Orchestrator -> Local Storage: findLastEventByUsername(lastEventsArray, username)
+Local Storage --> Page Orchestrator : lastEvent
+alt lastEvent != null
+alt lastEvent === 'auctionCreated'
+Page Orchestrator -> Page Orchestrator: startSell()
+else 
+Page Orchestrator -> Page Orchestrator: startBuy()
+end
+else lastEvent == null
+Page Orchestrator -> Page Orchestrator: startBuy()
+end
+else username == null
+AuctionsMainPage.html + \n AuctionsFactory -> Window: location.href = "Login.html"
+
+

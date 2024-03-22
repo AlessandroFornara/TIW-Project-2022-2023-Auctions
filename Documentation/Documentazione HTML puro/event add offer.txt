@@ -1,0 +1,17 @@
+title event: add offer
+
+->AddOffer: doPOST (auctionID, bidderUsername, offer)
+AddOffer->AddOffer: sentTime = current time 
+AddOffer->OfferDAO: new OfferDAO()
+AddOffer->OfferDAO: getMinimumOffer(auctionID)
+OfferDAO-->AddOffer: currentOffer 
+
+alt offer >= currentOffer
+AddOffer->OfferDAO: addOffer(offer, bidderUsername, sentTime, auctionID)
+AddOffer->session: setAttribute("done", true)
+else offer < currentOffer
+AddOffer->session: setAttribute("done", false)
+end
+
+AddOffer->ViewOffers: forward request
+

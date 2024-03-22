@@ -1,0 +1,4 @@
+title Event: go to home
+
+CheckLogin->GoToHomePage: sendRedirect POST
+GoToHomePage->Template engine: process(ctx, HomePage.html, ..)

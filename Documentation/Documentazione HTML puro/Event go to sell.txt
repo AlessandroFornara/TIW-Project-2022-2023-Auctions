@@ -1,0 +1,27 @@
+title Event: go to sell
+
+HomePage.html->GoToSell: doPOST
+GoToSell->session: getAttribute("user")
+session-->GoToSell: username, loginTime
+GoToSell->AuctionDAO: new AuctionDAO()
+GoToSell->ArticleDAO: new ArticleDAO()
+
+GoToSell->AuctionDAO: findAuctionsByUsername(username, 0)
+AuctionDAO-->GoToSell: openAuctions
+
+GoToSell->AuctionDAO: findAuctionsByUsername(username, 1)
+AuctionDAO-->GoToSell: closedAuctions
+
+alt openAuctions!=null
+GoToSell->ArticleDAO: find all articles for all openAuctions
+ArticleDAO-->GoToSell: articles
+end
+alt closedAuctions!=null
+GoToSell->ArticleDAO: find all articles for all closedAuctions
+ArticleDAO-->GoToSell: articles
+end
+GoToSell->ArticleDAO: findUnsoldArticlesByUsername(username)
+ArticleDAO-->GoToSell: unsoldArticles
+
+GoToSell->ctx: setVariabile(username, openAuctions, closedAuctions, unsoldArticles)
+GoToSell->Template engine: process(ctx, Sell.html)

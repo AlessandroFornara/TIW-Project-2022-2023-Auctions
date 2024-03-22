@@ -1,0 +1,34 @@
+title event: click BuyButton
+
+-> Page Orchestrator: click BuyButton
+
+Page Orchestrator -> GoToBuy: makeCall (doPOST)
+GoToBuy --> Page Orchestrator :response
+
+Page Orchestrator -> AuctionsMainPage.html: change welcome message, change page title
+
+Page Orchestrator -> Page Orchestrator :clearPage()
+AuctionsMainPage.html --> Page Orchestrator: clearing
+Page Orchestrator -> Buy Orchestrator: createKeyWordForm()
+Buy Orchestrator --> AuctionsMainPage.html: creating form
+
+alt wonAuctions.length === 0
+Page Orchestrator -> AuctionsMainPage.html: change won auctions message
+else
+Page Orchestrator -> AuctionsMainPage.html: change won auctions message
+Page Orchestrator -> Buy Orchestrator: refreshWonAuctions(fromServlet)
+Buy Orchestrator --> Page Orchestrator :refreshing
+end
+
+Page Orchestrator -> FetchLastClickedAuctions: makeCall(POST)
+
+FetchLastClickedAuctions -> AuctionDAO: new AuctionDAO()
+
+FetchLastClickedAuctions -> AuctionDAO: findLastClickedAuctionsById(arrayIntegers)
+AuctionDAO --> FetchLastClickedAuctions : lastClickedAuctions
+
+FetchLastClickedAuctions --> Page Orchestrator : setStatus(HttpServletResponse.SC_OK)
+
+Page Orchestrator -> BuyOrchestrator : refreshLastClickedAuctions(fromServlet)
+BuyOrchestrator --> Page Orchestrator : refreshing
+

@@ -1,0 +1,29 @@
+title event: close auction
+
+->SellOrchestrator: click 'close' button
+SellOrchestrator -> CloseAuction: makeCall(doPOST)
+
+CloseAuction->AuctionDAO: new AuctionDAO()
+CloseAuction->AuctionDAO: updateAuction(auctionID)
+CloseAuction->GoToSell: forward request
+GoToSell-->SellOrchestrator :response
+
+SellOrchestrator -> SellOrchestrator : clearOpenAuctionsDetails()
+
+alt openAuctions == null
+SellOrchestrator -> AuctionsMainPage.html: change open auctions message
+else openAuctions != null
+SellOrchestrator -> AuctionsMainPage.html: change open auctions message
+SellOrchestrator -> SellOrchestrator :refreshOpenAuctions()
+SellOrchestrator --> AuctionsMainPage.html: refreshing
+end
+
+alt closeAuctions == null
+SellOrchestrator -> AuctionsMainPage.html: change closed auctions message
+else closedAuctions != null
+SellOrchestrator -> AuctionsMainPage.html: change closed auctions message
+SellOrchestrator -> SellOrchestrator :refreshClosedAuctions()
+SellOrchestrator --> AuctionsMainPage.html: refreshing
+end
+
+SellOrchestrator -> SellOrchestrator : createAddAuctionAndArticlesForms(fromServlet)

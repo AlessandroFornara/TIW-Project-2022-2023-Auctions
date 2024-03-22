@@ -1,0 +1,19 @@
+title event: add article to database
+
+->AuctionsMainPage.html + \n Sell Orchestrator:click 'add' button
+AuctionsMainPage.html + \n Sell Orchestrator -> Add: makeCall(POST)
+
+AddArticle->session: getAttribute(user)
+session-->AddArticle: username
+
+AddArticle->ArticleDAO: new ArticleDAO
+AddArticle->ArticleDAO: findLastArticleCode()
+ArticleDAO-->AddArticle: code
+
+AddArticle->Article: new Article(code+1, articleName, articleDescription, Integer.parseInt(articlePrice), username, 0)
+AddArticle->ArticleDAO: createArticle(article)
+AddArticle->GoToSell: forward request
+
+GoToSell-->AuctionsMainPage.html + \n Sell Orchestrator: response
+
+AuctionsMainPage.html + \n Sell Orchestrator -> AuctionsMainPage.html + \n Sell Orchestrator: sellOrchestrator.clearAddAuctionAndArticlesForms(), \n sellOrchestrator.createAddAuctionAndArticlesForms(fromServlet)

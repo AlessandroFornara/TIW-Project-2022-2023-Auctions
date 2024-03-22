@@ -1,0 +1,28 @@
+title event: click SellButton
+
+-> Page Orchestrator: click SellButton
+
+Page Orchestrator -> GoToSell: makeCall (doPOST)
+GoToSell --> Page Orchestrator :response
+
+Page Orchestrator -> Page Orchestrator :clearPage()
+
+Page Orchestrator -> AuctionsMainPage.html: change page title and welcome message
+
+alt openAuctions == null
+Page Orchestrator -> AuctionsMainPage.html: change open auctions message
+else openAuctions != null
+Page Orchestrator -> AuctionsMainPage.html: change open auctions message
+Page Orchestrator -> Sell Orchestrator: refreshOpenAuctions(fromServlet)
+Sell Orchestrator --> AuctionsMainPage.html: refreshing
+end
+
+alt closedAuctions == null
+Page Orchestrator -> AuctionsMainPage.html: change closed auctions message
+else closedAuctions != null
+Page Orchestrator -> AuctionsMainPage.html: change closed auctions message
+Page Orchestrator -> Sell Orchestrator: refreshClosedAuctions(fromServlet)
+Sell Orchestrator --> AuctionsMainPage.html: refreshing
+end
+
+Page Orchestrator -> Sell Orchestrator : createAddAuctionAndArticlesForms(fromServlet)

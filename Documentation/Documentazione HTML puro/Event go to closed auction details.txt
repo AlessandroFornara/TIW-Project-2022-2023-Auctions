@@ -1,0 +1,20 @@
+title Event go to closed auction details
+
+->ClosedAuctionDetails: doPOST (auctionID)
+
+ClosedAuctionDetails->session: getAttribute("user")
+session-->ClosedAuctionDetails: username
+
+ClosedAuctionDetails->AuctionDAO: new AuctionDAO()
+ClosedAuctionDetails->AuctionDAO: findAuctionWithArticlesById(auctionID)
+AuctionDAO-->ClosedAuctionDetails: auction
+
+alt auction!=null
+ClosedAuctionDetails->ClosedAuctionDetails: auctionArticles = auction.getArticles()
+ClosedAuctionDetails->UserDAO: new UserDAO()
+ClosedAuctionDetails->UserDAO: findUserByUsername(username)
+UserDAO-->ClosedAuctionDetails: user
+end
+
+ClosedAuctionDetails->ctx: setVariable(username, auction, auctionArticles, user)
+ClosedAuctionDetails-> Template engine: process(ctx, OpenAuctionDetails.html, ...)

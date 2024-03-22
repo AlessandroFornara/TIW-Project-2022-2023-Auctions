@@ -1,0 +1,23 @@
+title event: create auction
+
+->AddAuction: do POST(minimumBidIncrement, expirationDate, articlesToAdd)
+AddAuction -> session: getAttribute("user")
+session --> AddAuction : username
+
+AddAuction -> articleDAO: new ArticleDAO()
+AddAuction -> auctionDAO: new AuctionDAO()
+
+AddAuction -> auctionDAO: findLastAuctionId()
+auctionDAO --> AddAuction : last auctionId
+AddAuction -> articleDAO: update all articles' auctionId
+AddAuction -> articleDAO: get the initial price for the auctionDAO 
+articleDAO --> AddAuction : initialPrice
+
+AddAuction -> articleDAO : findArticlesByAuctionID(auctionId)
+articleDAO --> AddAuction : articles
+
+AddAuction -> Auction: new Auction(auctionId, username, expired, highestBid, expirationDate, minimumBidIncrementInt, finalPrice, initialPrice, articles, winner)
+
+AddAuction -> auctionDAO : createAuction(auction)
+
+AddAuction -> GoToSell: forward request

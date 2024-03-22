@@ -1,0 +1,32 @@
+title event: create auction
+
+-> AuctionsMainPage.html + \n Sell Orchestrator:click 'create' button
+AuctionsMainPage.html + \n Sell Orchestrator -> AddAuction: makeCall(POST)
+AddAuction -> session: getAttribute("user")
+session --> AddAuction : username
+
+AddAuction -> articleDAO: new ArticleDAO()
+AddAuction -> auctionDAO: new AuctionDAO()
+
+AddAuction -> auctionDAO: findLastAuctionId()
+auctionDAO --> AddAuction : last auctionId
+AddAuction -> articleDAO: update all articles' auctionId
+AddAuction -> articleDAO: get the initial price for the auctionDAO 
+articleDAO --> AddAuction : initialPrice
+
+AddAuction -> articleDAO : findArticlesByAuctionID(auctionId)
+articleDAO --> AddAuction : articles
+
+AddAuction -> Auction: new Auction(auctionId, username, expired, highestBid, expirationDate, minimumBidIncrementInt, finalPrice, initialPrice, articles, winner)
+
+AddAuction -> auctionDAO : createAuction(auction)
+
+AddAuction -> GoToSell: forward request
+GoToSell --> AuctionsMainPage.html + \n Sell Orchestrator : response
+
+AuctionsMainPage.html + \n Sell Orchestrator -> AuctionsMainPage.html + \n Sell Orchestrator: clearOpenAuctions(), clearAddAuctionAndArticlesForms(), \n refreshOpenAuctions(fromServlet), createAddAuctionAndArticlesForms(fromServlet) 
+
+AuctionsMainPage.html + \n Sell Orchestrator -> sessionStorage: getItem('username')
+sessionStorage --> AuctionsMainPage.html + \n Sell Orchestrator: username
+
+AuctionsMainPage.html + \n Sell Orchestrator -> Local Storage: updateEventsLocalStorage(username, 'auctionCreated', currentDate)

@@ -1,0 +1,7 @@
+title event: close auction
+
+->CloseAuction: doPOST (auctionID)
+
+CloseAuction->AuctionDAO: new AuctionDAO()
+CloseAuction->AuctionDAO: updateAuction(auctionID)
+CloseAuction->GoToSell: forward request

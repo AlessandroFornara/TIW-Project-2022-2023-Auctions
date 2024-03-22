@@ -1,0 +1,20 @@
+title Event: login
+
+-> Login.html +\n loginManagement: click 'sign in' button
+Login.html +\n loginManagement->CheckLogin: MakeCall(doPOST)
+CheckLogin->UserDAO: new UserDAO()
+CheckLogin->UserDAO: checkCredentials(usrn, pwd)
+UserDAO-->CheckLogin: user information
+
+alt user information != null
+CheckLogin -> session: setAttribute("user", user information)
+CheckLogin --> Login.html +\n loginManagement: setStatus(HttpServletResponse.SC_OK) \n username
+Login.html +\n loginManagement -> sessionStorage: setItem('username', username)
+Login.html +\n loginManagement -> Window: location = AuctionsMainPage.html
+else user information == null
+CheckLogin--> Login.html +\n loginManagement: [status code 400]
+CheckLogin--> Login.html +\n loginManagement: [status code 401]
+CheckLogin--> Login.html +\n loginManagement: [status code 500]
+Login.html +\n loginManagement -> Login.html +\n loginManagement:show error message
+end
+

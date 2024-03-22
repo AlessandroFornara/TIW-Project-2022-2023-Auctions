@@ -1,0 +1,46 @@
+title event: startSell
+
+->Page Orchestrator: startSell()
+
+Page Orchestrator->GoToSell: makeCall(doPOST)
+GoToSell->session: getAttribute("user")
+session-->GoToSell: username, loginTime
+GoToSell->AuctionDAO: new AuctionDAO()
+GoToSell->ArticleDAO: new ArticleDAO()
+
+GoToSell->AuctionDAO: findAuctionsByUsername(username, 0)
+AuctionDAO-->GoToSell: openAuctions
+
+GoToSell->AuctionDAO: findAuctionsByUsername(username, 1)
+AuctionDAO-->GoToSell: closedAuctions
+
+alt openAuctions!=null
+GoToSell->ArticleDAO: find all articles for all openAuctions
+ArticleDAO-->GoToSell: articles
+end
+alt closedAuctions!=null
+GoToSell->ArticleDAO: find all articles for all closedAuctions
+ArticleDAO-->GoToSell: articles
+end
+GoToSell->ArticleDAO: findUnsoldArticlesByUsername(username)
+ArticleDAO-->GoToSell: unsoldArticles
+
+GoToSell --> Page Orchestrator: setStatus(HttpServletResponse.SC_OK)
+
+alt openAuctions == null
+Page Orchestrator -> AuctionsMainPage.html: update openAuctions message
+else openAuctions != null
+Page Orchestrator -> AuctionsMainPage.html: update openAuctions message
+Page Orchestrator -> Sell Orchestrator: refreshOpenAuctions(fromServlet)
+Sell Orchestrator --> AuctionsMainPage.html: refreshing 
+end
+
+alt closedAuctions == null
+Page Orchestrator -> AuctionsMainPage.html: update closedAuctions message
+else closedAuctions != null
+Page Orchestrator -> AuctionsMainPage.html: update closedAuctions message
+Page Orchestrator -> Sell Orchestrator: refreshClosedAuctions(fromServlet)
+Sell Orchestrator --> AuctionsMainPage.html: refreshing 
+end
+
+Page Orchestrator -> Sell Orchestrator: createAddAuctionAndArticlesForms(fromServlet)

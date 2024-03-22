@@ -1,0 +1,20 @@
+title event: go to view offers
+
+->ViewOffers: doPOST (auctionID)
+
+ViewOffers->session: getAttribute("user")
+session-->ViewOffers: username
+
+ViewOffers->session: gettAttribute("done")
+session-->ViewOffers: done
+
+ViewOffers->AuctionDAO: new AuctionDAO()
+ViewOffers->AuctionDAO: findAuctionWithArticlesById(auctionID)
+AuctionDAO-->ViewOffers: auction
+
+ViewOffers->OfferDAO: new OfferDAO()
+ViewOffers->OfferDAO: findOffersByAuctionId(auctionID)
+OfferDAO-->ViewOffers: auctionOffers
+
+ViewOffers->ctx: setVariable(auction, auctionOffers, username, done)
+ViewOffers->Template engine: process(ctx, ViewOffers.html, ...)

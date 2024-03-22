@@ -1,0 +1,25 @@
+title Event: go to open auction details
+
+
+->Sell Orchestrator : click 'details' button
+Sell Orchestrator ->OpenAuctionDetails: makeCall(doPOST)
+
+OpenAuctionDetails->session: getAttribute("user")
+session-->OpenAuctionDetails: username
+
+OpenAuctionDetails->AuctionDAO: new AuctionDAO()
+
+OpenAuctionDetails->AuctionDAO: findAuctionWithArticlesById(auctionID)
+AuctionDAO-->OpenAuctionDetails: auction
+
+alt auction!=null
+OpenAuctionDetails->OpenAuctionDetails: auctionArticles = auction.getArticles()
+OpenAuctionDetails->OpenAuctionDetails: difference = (how much time \n is left before auctions expires)
+OpenAuctionDetails->OfferDAO: new OfferDAO()
+OpenAuctionDetails->OfferDAO: findOffersByAuctionId(auctionID)
+OfferDAO-->OpenAuctionDetails: auctionOffers
+end
+
+OpenAuctionDetails-->Sell Orchestrator :setStatus(HttpServletResponse.SC_OK)
+
+Sell Orchestrator ->Sell Orchestrator :clearOpenAuctions(), clearClosedAuctions(), \n clearAddAuctionAndArticlesForms(), goToOpenAuctionDetails(fromServlet)

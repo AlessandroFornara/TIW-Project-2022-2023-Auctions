@@ -1,0 +1,24 @@
+title Event: go to closed auction details
+
+
+->Sell Orchestrator : click 'details' button
+Sell Orchestrator ->ClosedAuctionDetails: makeCall(doPOST)
+
+ClosedAuctionDetails->session: getAttribute("user")
+session-->ClosedAuctionDetails: username
+
+ClosedAuctionDetails->AuctionDAO: new AuctionDAO()
+ClosedAuctionDetails->AuctionDAO: findAuctionWithArticlesById(auctionID)
+AuctionDAO-->ClosedAuctionDetails: auction
+
+alt auction!=null
+ClosedAuctionDetails->ClosedAuctionDetails: auctionArticles = auction.getArticles()
+ClosedAuctionDetails->UserDAO: new UserDAO()
+ClosedAuctionDetails->UserDAO: findUserByUsername(username)
+UserDAO-->ClosedAuctionDetails: user
+end
+
+
+ClosedAuctionDetails-->Sell Orchestrator :setStatus(HttpServletResponse.SC_OK)
+
+Sell Orchestrator ->Sell Orchestrator :clearOpenAuctions(), clearClosedAuctions(), \n clearAddAuctionAndArticlesForms(), goToClosedAuctionDetails(fromServlet)

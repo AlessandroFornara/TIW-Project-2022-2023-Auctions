@@ -1,0 +1,27 @@
+title event: add offer
+
+-> Buyorchestrator: click 'place bid' button
+Buy Orchestrator -> AddOffer: makeCall(doPOST)
+
+AddOffer->AddOffer: sentTime = current time 
+AddOffer->OfferDAO: new OfferDAO()
+AddOffer->OfferDAO: getMinimumOffer(auctionID)
+OfferDAO-->AddOffer: currentOffer 
+
+alt offer >= currentOffer
+AddOffer->OfferDAO: addOffer(offer, bidderUsername, sentTime, auctionID)
+AddOffer->session: setAttribute("done", true)
+else offer < currentOffer
+AddOffer->session: setAttribute("done", false)
+end
+
+AddOffer->ViewOffers: forward request
+ViewOffers-->Buy Orchestrator : response
+
+alt done 
+Buy Orchestrator -> AuctionsMainPage.html : change bad offer message ("")
+Buy Orchestrator -> Buy Orchestrator :generateOffersTable(fromServlet)
+else !done
+Buy Orchestrator -> AuctionsMainPage.html : change bad offer message
+end
+Buy Orchestrator -> LocalStorage: updateEventsLocalStorage()

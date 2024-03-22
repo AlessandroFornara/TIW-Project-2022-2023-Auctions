@@ -1,0 +1,24 @@
+title event: go to view offers
+
+->Buy Orchestrator: click 'view bids'
+
+Buy Orchestrator -> ViewOffers:makeCall(doPOST)
+
+ViewOffers->session: getAttribute("user")
+session-->ViewOffers: username
+
+ViewOffers->session: gettAttribute("done")
+session-->ViewOffers: done
+
+ViewOffers->AuctionDAO: new AuctionDAO()
+ViewOffers->AuctionDAO: findAuctionWithArticlesById(auctionID)
+AuctionDAO-->ViewOffers: auction
+
+ViewOffers->OfferDAO: new OfferDAO()
+ViewOffers->OfferDAO: findOffersByAuctionId(auctionID)
+OfferDAO-->ViewOffers: auctionOffers
+
+ViewOffers-->Buy Orchestrator :setStatus(HttpServletResponse.SC_OK)
+
+Buy Orchestrator ->Buy Orchestrator : clearKeywordForm(), clearFoundAuctions(),\n clearWonAuctions(), clearLastClickedAuctions(), \n refreshViewOffers(fromServlet)
+Buy Orchestrator -> Local Storage: updateLastClickedAuctionsLocalStorage(fromServlet.auction.auctionId)

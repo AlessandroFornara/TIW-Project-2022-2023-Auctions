@@ -1,0 +1,62 @@
+title event: startBuy
+
+->Page Orchestrator: startBuy()
+Page Orchestrator -> GoToBuy: makeCall(POST)
+
+GoToBuy->session: getAttribute("user"), setAttribute("done", true)
+session-->GoToBuy: username
+
+GoToBuy->AuctionDAO: new AuctionDAO
+GoToBuy->ArticleDAO: new ArticleDAO
+GoToBuy->GoToBuy: sentTime = current time
+
+alt keyword!=null && !keyword.isBlank()
+GoToBuy->AuctionDAO: findAuctionsByArticleKeyword(keyword, sentTime)
+AuctionDAO-->GoToBuy: foundAuction 
+
+alt foundAuctions!=null
+GoToBuy->ArticleDAO: find all articles for foundAuctions
+ArticleDAO-->GoToBuy: articles
+end
+end
+
+GoToBuy->AuctionDAO: findAuctionIdsByWinner(username)
+AuctionDAO-->GoToBuy: auctionIds
+
+alt auctionIds!=null
+GoToBuy->AuctionDAO: request all information for every id
+AuctionDAO-->GoToBuy: information
+GoToBuy->GoToBuy: save information in wonAuctions
+end
+
+GoToBuy --> Page Orchestrator : setStatus(HttpServletResponse.SC_OK)
+
+alt wonAuctions.length === 0
+Page Orchestrator -> AuctionsMainPage.html: set won auctions message
+else 
+Page Orchestrator -> AuctionsMainPage.html: set won auctions message
+Page Orchestrator -> BuyOrchestrator : refreshWonAuctions(fromServlet)
+BuyOrchestrator --> Page Orchestrator : refreshing
+end
+
+Page Orchestrator -> BuyOrchestrator: createKeyWordForm()
+BuyOrchestrator --> AuctionsMainPage.html : creating form
+
+Page Orchestrator -> FetchLastClickedAuctions: makeCall(POST)
+
+FetchLastClickedAuctions -> session: getAttribute("user")
+session-->FetchLastClickedAuctions: username
+
+FetchLastClickedAuctions -> AuctionDAO: new AuctionDAO()
+
+FetchLastClickedAuctions -> AuctionDAO: findLastClickedAuctionsById(arrayIntegers)
+AuctionDAO --> FetchLastClickedAuctions : lastClickedAuctions
+
+FetchLastClickedAuctions --> Page Orchestrator : setStatus(HttpServletResponse.SC_OK)
+
+Page Orchestrator -> BuyOrchestrator : refreshLastClickedAuctions(fromServlet)
+BuyOrchestrator --> AuctionsMainPage.html : refreshing
+
+
+
+

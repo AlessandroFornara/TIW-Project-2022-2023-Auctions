@@ -1,0 +1,14 @@
+title Event: login
+
+->CheckLogin: doPOST
+CheckLogin->UserDAO: new UserDAO()
+CheckLogin->UserDAO: checkCredentials(usrn, pwd)
+UserDAO-->CheckLogin: user information
+
+alt user information != null
+CheckLogin->session: setAttribute("user", user information)
+CheckLogin->GoToHomePage: sendRedirect
+
+else user information == null
+CheckLogin->Login.html: sendRedirect
+
